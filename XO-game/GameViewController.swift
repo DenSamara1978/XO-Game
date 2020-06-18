@@ -33,7 +33,7 @@ class GameViewController: UIViewController {
         gameboardView.onSelectPosition = { [weak self] position in
             guard let self = self else { return }
             self.currentState.addMark(at: position)
-            if self.currentState.isCompleted {
+            while self.currentState.isCompleted {
                 self.goToNextState()
             }
 //            self.gameboardView.placeMarkView(XView(), at: position)
@@ -53,12 +53,17 @@ class GameViewController: UIViewController {
         }
         if let playerInputState = currentState as? PlayerInputState {
             let player = playerInputState.player.next
-            self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype, gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
+            if ( Game.shared.isComputerGaming && ( playerInputState.player == .first )) {
+                self.currentState = ComputerStepState(player: player, markViewPrototype: player.markViewPrototype, gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
+            } else {
+                self.currentState = PlayerInputState(player: player, markViewPrototype: player.markViewPrototype, gameViewController: self, gameboard: gameboard, gameboardView: gameboardView)
+            }
         }
     }
     
     @IBAction func restartButtonTapped(_ sender: UIButton) {
         Log(.restartGame)
+        dismiss(animated: true, completion: nil)
         
     }
 }

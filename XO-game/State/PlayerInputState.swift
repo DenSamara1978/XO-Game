@@ -37,7 +37,7 @@ public class PlayerInputState: GameState {
             self.gameViewController?.firstPlayerTurnLabel.isHidden = true
             self.gameViewController?.secondPlayerTurnLabel.isHidden = false
         }
-            self.gameViewController?.winnerLabel.isHidden = true
+        self.gameViewController?.winnerLabel.isHidden = true
     }
     
     public func addMark(at position: GameboardPosition) {
